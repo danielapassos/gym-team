@@ -3,13 +3,22 @@ import BackgroundImg from '@assets/background.png'
 import LogoSvg from '@assets/logo.svg'
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 
 export function SignIn(){
 
+    const navigation = useNavigation<AuthNavigatorRoutesProps>();
+
+    function handleNewAccount(){
+        navigation.navigate('signUp')
+    }
+
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator = {false}>
-        <VStack flex={1} bg="gray.700" px="10px" pb={16}>
+        <VStack flex={1} px="10px" pb={16}>
             <Image
+                defaultSource={BackgroundImg}
                 source={BackgroundImg}
                 alt="Gym App Background Image"
                 resizeMode="contain"
@@ -44,7 +53,7 @@ export function SignIn(){
                 Still don't got access?
             </Text>
 
-            <Button title="Create account" variant="outline"/>
+            <Button title="Create account" variant="outline" onPress={handleNewAccount}/>
         </Center>
         
         </VStack>

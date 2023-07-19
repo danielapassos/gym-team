@@ -3,13 +3,21 @@ import BackgroundImg from '@assets/background.png'
 import LogoSvg from '@assets/logo.svg'
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
+import { useNavigation } from "@react-navigation/native";
 
 export function SignUp(){
 
+    const navigation = useNavigation();
+
+    function handleGoBack(){
+        navigation.goBack();
+    }
+
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator = {false}>
-        <VStack flex={1} bg="gray.700" px="10px" pb={16}>
+        <VStack flex={1} px="10px" pb={16}>
             <Image
+                defaultSource={BackgroundImg}
                 source={BackgroundImg}
                 alt="Gym App Background Image"
                 resizeMode="contain"
@@ -43,7 +51,7 @@ export function SignUp(){
             <Button title="Create and access"/>
         </Center>
 
-            <Button title="Create account" variant="outline" mt={24}/>
+            <Button title="Create account" variant="outline" mt={24} onPress={handleGoBack}/>
         
         </VStack>
         </ScrollView>

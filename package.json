@@ -10,7 +10,12 @@
   },
   "dependencies": {
     "@callstack/react-theme-provider": "^3.0.8",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@expo-google-fonts/roboto": "^0.2.2",
+    "@mui/icons-material": "^5.14.1",
+    "@mui/material": "^5.14.1",
+    "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "expo": "^48.0.20",
