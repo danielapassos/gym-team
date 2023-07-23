@@ -4,13 +4,26 @@ import LogoSvg from '@assets/logo.svg'
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
+import { useForm, Controller } from 'react-hook-form'
+
+type FormDataProps = {
+    name: string,
+    email: string;
+    password: string;
+    password_confirm: string;
+}
 
 export function SignUp(){
-
     const navigation = useNavigation();
+
+    const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>();
 
     function handleGoBack(){
         navigation.goBack();
+    }
+
+    function handleSignUp({ name, email, password, password_confirm }: FormDataProps){
+
     }
 
     return (
@@ -35,23 +48,86 @@ export function SignUp(){
                 Create your account
             </Heading>
 
-            <Input 
-                placeholder="Name" 
+            <Controller 
+                control={control}
+                name="name"
+                rules={{
+                    required: 'Name is required.'
+                }}
+                render={( { field: { onChange, value } }) => (
+
+                <Input 
+                    placeholder="Name"
+                    onChangeText={onChange}
+                    value={value}
+                    errormessage={errors.name?.message}
+                />
+                )}
             />
 
-            <Input 
-                placeholder="Email" 
-                keyboardType="email-address"
-                autoCapitalize="none"
+            <Controller 
+                control={control}
+                name="email"
+                rules={{
+                    required: 'Email is required.',
+                    pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: 'This email is invalid.'
+                    }
+                }}
+                render={( { field: { onChange, value } }) => (
+                <Input 
+                    placeholder="Email" 
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    onChangeText={onChange}
+                    value={value}
+                    errormessage={errors.email?.message}
+                />
+                )}
             />
-            <Input 
-                placeholder="Password"
-                secureTextEntry
+
+            <Controller 
+                control={control}
+                name="password"
+                rules={{
+                    required: 'Password is required.'
+                }}
+                render={( { field: { onChange, value } }) => (
+                <Input 
+                    placeholder="Password"
+                    secureTextEntry
+                    onChangeText={onChange}
+                    value={value}
+                    errormessage={errors.password?.message}
+                />
+                )}
             />
-            <Button title="Create and access"/>
+
+            <Controller 
+                control={control}
+                name="password_confirm"
+                rules={{
+                    required: 'You must confirm your password.'
+                }}
+                render={( { field: { onChange, value } }) => (
+
+                <Input 
+                    placeholder="Confirm your password"
+                    secureTextEntry
+                    onChangeText={onChange}
+                    value={value}
+                    onSubmitEditing={handleSubmit(handleSignUp)}
+                    returnKeyType="send"
+                    errormessage={errors.password_confirm?.message}
+                />
+                )}
+            />
+
+            <Button title="Create and access" onPress={handleSubmit(handleSignUp)}/>
         </Center>
 
-            <Button title="Create account" variant="outline" mt={24} onPress={handleGoBack}/>
+            <Button title="Back to Login" variant="outline" mt={24} onPress={handleGoBack}/>
         
         </VStack>
         </ScrollView>
