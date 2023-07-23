@@ -5,6 +5,8 @@ import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup';
 
 type FormDataProps = {
     name: string,
@@ -13,17 +15,27 @@ type FormDataProps = {
     password_confirm: string;
 }
 
+const signUpSchema = yup.object({
+    name: yup.string().required('Inform the nme.'),
+    email: yup.string().required('Inform the email').email('Invalid email.'),
+    password: yup.string().required('Inform the password').min(6, 'Your password must have at least 6 digits.'),
+    password_confirm: yup.string().required('Confirm your password.').oneOf([yup.ref('password'), null], 'The passwords do not match.')
+  });
+  
+
 export function SignUp(){
     const navigation = useNavigation();
 
-    const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>();
+    const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
+        resolver: yupResolver(signUpSchema),
+      });
 
     function handleGoBack(){
         navigation.goBack();
     }
 
     function handleSignUp({ name, email, password, password_confirm }: FormDataProps){
-
+        console.log({ name, email, password, password_confirm })
     }
 
     return (
