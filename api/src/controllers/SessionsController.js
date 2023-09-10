@@ -1,6 +1,6 @@
 const knex = require("../database");
 const { compare } = require("bcryptjs");
-const AppError = require("../utils/AppError");
+const AppError = require ("../utils/AppError")
 const GenerateRefreshToken = require("../providers/GenerateRefreshToken");
 const GenerateToken = require("../providers/GenerateToken");
 
@@ -11,13 +11,13 @@ class SessionsController {
     const user = await knex("users").where({ email: email.toLowerCase() }).first();
 
     if (!user) {
-      throw new AppError("E-mail e/ou senha incorreta.", 404);
+      throw new AppError("Incorrect email or password.", 404);
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw new AppError("E-mail e/ou senha incorreta.", 404);
+      throw new AppError("Incorrect email or password.", 404);
     }
 
     const generateTokenProvider = new GenerateToken();
